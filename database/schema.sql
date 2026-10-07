@@ -1,0 +1,57 @@
+CREATE TABLE IF NOT EXISTS products (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  short_name TEXT,
+  category TEXT NOT NULL,
+  demand_level TEXT NOT NULL,
+  trend_score INTEGER NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS inventory (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  product_id INTEGER NOT NULL,
+  stock_quantity INTEGER NOT NULL,
+  reorder_status TEXT NOT NULL,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(product_id) REFERENCES products(id)
+);
+
+CREATE TABLE IF NOT EXISTS weather_snapshots (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  snapshot_date TEXT NOT NULL,
+  temp INTEGER NOT NULL,
+  wind_speed INTEGER NOT NULL,
+  humidity INTEGER NOT NULL,
+  weather_label TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS sales_records (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  product_id INTEGER NOT NULL,
+  sale_date TEXT NOT NULL,
+  quantity INTEGER NOT NULL,
+  revenue REAL NOT NULL,
+  FOREIGN KEY(product_id) REFERENCES products(id)
+);
+
+CREATE TABLE IF NOT EXISTS demand_forecasts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  forecast_date TEXT NOT NULL,
+  day_name TEXT NOT NULL,
+  demand_index INTEGER NOT NULL,
+  temp_c INTEGER NOT NULL,
+  trend_summary TEXT
+);
+
+CREATE TABLE IF NOT EXISTS scenarios (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  temp INTEGER NOT NULL,
+  wind INTEGER NOT NULL,
+  precip TEXT NOT NULL,
+  outerwear INTEGER NOT NULL,
+  footwear INTEGER NOT NULL,
+  thermo INTEGER NOT NULL,
+  accessories INTEGER NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
